@@ -1,12 +1,11 @@
 package com.example.jip2022_w5.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "authorities")
@@ -17,7 +16,11 @@ public class Authorities {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String username;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "username",nullable = false)
+    @JsonIgnore
+    User user;
+
     private String authority;
 
 }

@@ -3,7 +3,9 @@ package com.example.jip2022_w5.controllers;
 
 import com.example.jip2022_w5.entities.User;
 import com.example.jip2022_w5.repository.UserRepository;
+import com.example.jip2022_w5.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,26 +14,28 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-        @Autowired
-        private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
 
 
-        @GetMapping
-        public List<User> getAllUsers(){
-           return  userRepository.findAll();
-        }
 
-        @PostMapping
-        public User createUser(@RequestBody User newUser){
-            return userRepository.save(newUser);
-        }
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
 
-        @GetMapping("/{userId}")
-        public User getOneUser(@PathVariable Long userId){
 
-            return userRepository.findById(userId).orElse(null);
+    @PostMapping
+    public User createUser(@RequestBody User newUser) {
+        return userService.createUser(newUser);
+    }
 
-        }
+    @GetMapping("/{userId}")
+    public User getOneUser(@PathVariable Long userId) {
+
+        return userService.getOneUser(userId);
+
+    }
 
 
 }
