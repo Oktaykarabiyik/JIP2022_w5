@@ -17,7 +17,8 @@ public class UserService {
     private UserRepository userRepository;
 
 
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers()
+    {
         return  userRepository.findAll();
     }
 
@@ -30,4 +31,20 @@ public class UserService {
     public User getOneUser(Long userId) {
         return userRepository.findById(userId).orElse(null);
     }
+    public User getFindUser(String username,String passowrd){
+        return userRepository.findUserByUsernameAndPassword(username,passowrd);
+    }
+
+
+
+    public boolean validateUser(String userid, String password) {
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            if (user.getUsername().equals(userid) && user.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

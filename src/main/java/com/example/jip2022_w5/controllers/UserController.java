@@ -5,21 +5,69 @@ import com.example.jip2022_w5.entities.User;
 import com.example.jip2022_w5.repository.UserRepository;
 import com.example.jip2022_w5.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.List;
 
-@RestController
-@RequestMapping("/users")
+@Controller
 public class UserController {
 
     @Autowired
     private UserService userService;
 
 
+    @RequestMapping(value = {"/userLogin", "/"}, method = RequestMethod.GET)
+    public String showLoginPage() {
+        return "userLogin";
+    }
 
-    @GetMapping
+    @RequestMapping(value = "/userLogin", method = RequestMethod.POST)
+    public String showWelcomePage(ModelMap model, @RequestParam String name, @RequestParam String password) {
+
+        User loggedInUser = userService.getFindUser(name, password);
+
+        if (loggedInUser == null) {
+            model.put("errorMessage", "Invalid Credentials");
+            return "userLogin";
+        }
+
+        model.put("name", name);
+        model.put("password", password);
+
+        return "welcome";
+    }
+
+    @RequestMapping(value = "/userRegistration", method = RequestMethod.GET)
+    public String showRegistrationPage() {
+        return "Registration";
+
+    }
+
+    @RequestMapping(value = "/userRegistration", method = RequestMethod.POST)
+    public String userRegistration(ModelMap model, @RequestParam String username, @RequestParam String email,
+                                   @RequestParam Date birthday, @RequestParam String sexsmall, @RequestParam String password,
+                                   @RequestParam String password2) {
+        User user=new User();
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setBirthday(birthday);
+        user.setSexsmall(Integer.valueOf(sexsmall));
+        user.setPassword(password);
+        user.setEnabled(false);
+        userService.createUser(user);
+
+        return "userLogin";
+
+
+    }
+
+
+
+   /* @RequestMapping(value = "/allUsers", method = RequestMethod.GET)
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
@@ -35,7 +83,7 @@ public class UserController {
 
         return userService.getOneUser(userId);
 
-    }
+    }*/
 
 
 }

@@ -2,10 +2,7 @@ package com.example.jip2022_w5.entities;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
@@ -13,6 +10,7 @@ import java.sql.Date;
 @Data
 public class User {
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     private Long id;
 
