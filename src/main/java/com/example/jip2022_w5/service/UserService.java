@@ -17,34 +17,30 @@ public class UserService {
     private UserRepository userRepository;
 
 
-    public List<User> getAllUsers()
-    {
-        return  userRepository.findAll();
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
 
-    public User createUser(User newUser){
+    public User createUser(User newUser) {
         return userRepository.save(newUser);
     }
-
 
     public User getOneUser(Long userId) {
         return userRepository.findById(userId).orElse(null);
     }
-    public User getFindUser(String username,String passowrd){
-        return userRepository.findUserByUsernameAndPassword(username,passowrd);
+
+    public User getFindUser(String username, String passowrd) {
+        return userRepository.findUserByUsernameAndPassword(username, passowrd);
     }
 
-
-
-    public boolean validateUser(String userid, String password) {
-        List<User> users = userRepository.findAll();
-        for (User user : users) {
-            if (user.getUsername().equals(userid) && user.getPassword().equals(password)) {
-                return true;
-            }
-        }
-        return false;
+    public User getFindUsername(String username) {
+        return userRepository.findUserByUsername(username);
     }
+
+    public User getFindEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
+
 
 }

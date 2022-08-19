@@ -2,16 +2,14 @@ package com.example.jip2022_w5.controllers;
 
 
 import com.example.jip2022_w5.entities.User;
-import com.example.jip2022_w5.repository.UserRepository;
 import com.example.jip2022_w5.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
-import java.util.List;
+
 
 @Controller
 public class UserController {
@@ -50,10 +48,21 @@ public class UserController {
     @RequestMapping(value = "/userRegistration", method = RequestMethod.POST)
     public String userRegistration(ModelMap model, @RequestParam String username, @RequestParam String email,
                                    @RequestParam Date birthday, @RequestParam String sexsmall, @RequestParam String password,
-                                   @RequestParam String password2) {
-        User user=new User();
+                                   @RequestParam String confirmpassword) {
+        User user = new User();
         user.setUsername(username);
         user.setEmail(email);
+        User usernameControl = userService.getFindUsername(username);
+        User emailControl = userService.getFindEmail(email);
+        if (usernameControl != null) {
+            model.put("errorMessage", "Username Exist!");
+            return "Registration";
+        }
+        if (emailControl != null) {
+            model.put("errorMessage", "Email Exist!");
+            return "Registration";
+        }
+
         user.setBirthday(birthday);
         user.setSexsmall(Integer.valueOf(sexsmall));
         user.setPassword(password);
