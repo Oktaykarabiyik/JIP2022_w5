@@ -1,6 +1,7 @@
 package com.example.jip2022_w5.controllers;
 
 
+import com.example.jip2022_w5.entities.Authorities;
 import com.example.jip2022_w5.entities.User;
 import com.example.jip2022_w5.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,20 +24,31 @@ public class UserController {
         return "userLogin";
     }
 
-    @RequestMapping(value = "/userLogin", method = RequestMethod.POST)
-    public String showWelcomePage(ModelMap model, @RequestParam String name, @RequestParam String password) {
+    @RequestMapping(value = {"/userList"}, method = RequestMethod.GET)
+    public String showUserListPage() {
+        return "userList";
+    }
 
-        User loggedInUser = userService.getFindUser(name, password);
+    @RequestMapping(value = "/userLogin", method = RequestMethod.POST)
+    public String showWelcomePage(ModelMap model, @RequestParam String username, @RequestParam String password) {
+
+        User loggedInUser = userService.getUser(username, password);
 
         if (loggedInUser == null) {
             model.put("errorMessage", "Invalid Credentials");
             return "userLogin";
         }
 
-        model.put("name", name);
+        model.put("username", username);
         model.put("password", password);
 
+
+        if(loggedInUser.getAuthorities()!=null){
+            return "Home";
+        }
         return "welcome";
+
+
     }
 
     @RequestMapping(value = "/userRegistration", method = RequestMethod.GET)
@@ -51,13 +63,13 @@ public class UserController {
                                    @RequestParam String confirmpassword) {
         User user = new User();
         user.setUsername(username);
-        user.setEmail(email);
-        User usernameControl = userService.getFindUsername(username);
-        User emailControl = userService.getFindEmail(email);
+        User usernameControl = userService.getUsername(username);
         if (usernameControl != null) {
             model.put("errorMessage", "Username Exist!");
             return "Registration";
         }
+        user.setEmail(email);
+        User emailControl = userService.getEmail(email);
         if (emailControl != null) {
             model.put("errorMessage", "Email Exist!");
             return "Registration";

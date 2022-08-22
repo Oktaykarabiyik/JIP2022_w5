@@ -22,5 +22,8 @@ public class User {
     private boolean enabled;
 
 
+    @OneToOne(mappedBy = "user")
+    private Authorities authorities;
+
 
 }

@@ -30,15 +30,16 @@ public class UserService {
         return userRepository.findById(userId).orElse(null);
     }
 
-    public User getFindUser(String username, String passowrd) {
+    public User getUser(String username, String passowrd) {
         return userRepository.findUserByUsernameAndPassword(username, passowrd);
     }
 
-    public User getFindUsername(String username) {
+    public User getUsername(String username) {
         return userRepository.findUserByUsername(username);
     }
 
-    public User getFindEmail(String email) {
+
+    public User getEmail(String email) {
         return userRepository.findUserByEmail(email);
     }
 
