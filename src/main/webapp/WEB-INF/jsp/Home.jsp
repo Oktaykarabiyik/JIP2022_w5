@@ -8,7 +8,9 @@
 
 ${username} is at home. <br>
 
-<a href="userList.jsp">Link</a>
+<form action="/listUsers" method="get">
+<button type="submit">list User</button>
+</form>
 
 </body>
 </html>

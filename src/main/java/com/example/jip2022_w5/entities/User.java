@@ -10,7 +10,7 @@ import java.sql.Date;
 @Data
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -22,8 +22,8 @@ public class User {
     private boolean enabled;
 
 
-    @OneToOne(mappedBy = "user")
-    private Authorities authorities;
+   /* @OneToOne(mappedBy = "user")
+    private Authorities authorities;*/
 
 
 }

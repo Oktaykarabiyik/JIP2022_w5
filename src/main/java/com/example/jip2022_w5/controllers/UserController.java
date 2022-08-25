@@ -10,7 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
-
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -24,15 +24,24 @@ public class UserController {
         return "userLogin";
     }
 
-    @RequestMapping(value = {"/userList"}, method = RequestMethod.GET)
-    public String showUserListPage() {
-        return "userList";
+
+    @RequestMapping(value = "/userList", method = RequestMethod.GET, headers = "Accept=application/json")
+    public @ResponseBody
+    List<User> getUserList() {
+        return userService.getAllUsers();
     }
+
+    @RequestMapping(value = "/listUsers", method = RequestMethod.GET)
+    public String showlistUserPage() {
+        return "listUser";
+    }
+
 
     @RequestMapping(value = "/userLogin", method = RequestMethod.POST)
     public String showWelcomePage(ModelMap model, @RequestParam String username, @RequestParam String password) {
 
         User loggedInUser = userService.getUser(username, password);
+        Authorities isAuthorities = userService.getAuthoritiesUsername(username);
 
         if (loggedInUser == null) {
             model.put("errorMessage", "Invalid Credentials");
@@ -42,13 +51,10 @@ public class UserController {
         model.put("username", username);
         model.put("password", password);
 
-
-        if(loggedInUser.getAuthorities()!=null){
+        if (isAuthorities != null) {
             return "Home";
         }
         return "welcome";
-
-
     }
 
     @RequestMapping(value = "/userRegistration", method = RequestMethod.GET)

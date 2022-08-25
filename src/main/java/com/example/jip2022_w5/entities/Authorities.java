@@ -18,9 +18,9 @@ public class Authorities {
 
     private String authority;
 
-    @OneToOne(cascade = CascadeType.ALL)
+   /* @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username")
-    private User user;
-
+    private User user;*/
+    private String username;
 
 }
