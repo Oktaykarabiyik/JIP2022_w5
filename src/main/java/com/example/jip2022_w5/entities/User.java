@@ -1,5 +1,6 @@
 package com.example.jip2022_w5.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,7 +16,10 @@ public class User {
     private Long id;
 
     private String username;
+
+    @JsonIgnore
     private String password;
+
     private String email;
     private Date birthday;
     private int sexsmall;

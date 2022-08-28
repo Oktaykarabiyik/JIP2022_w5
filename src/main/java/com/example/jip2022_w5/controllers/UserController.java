@@ -1,6 +1,7 @@
 package com.example.jip2022_w5.controllers;
 
 
+import com.example.jip2022_w5.dto.UserDTO;
 import com.example.jip2022_w5.entities.Authorities;
 import com.example.jip2022_w5.entities.User;
 import com.example.jip2022_w5.service.UserService;
@@ -10,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,9 +28,20 @@ public class UserController {
 
 
     @RequestMapping(value = "/userList", method = RequestMethod.GET, headers = "Accept=application/json")
-    public @ResponseBody
-    List<User> getUserList() {
-        return userService.getAllUsers();
+    public @ResponseBody List<UserDTO> getUserList() {
+        List<User> userList = userService.getAllUsers();
+        List<UserDTO> userDTOList = new ArrayList<>();
+
+        for(User user:userList) {
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(user.getId());
+            userDTO.setUsername(user.getUsername());
+            userDTO.setEmail(user.getEmail());
+            userDTO.setBirthday(user.getBirthday());
+            userDTO.setSexsmall(user.getSexsmall());
+            userDTOList.add(userDTO);
+        }
+        return userDTOList ;
     }
 
     @RequestMapping(value = "/listUsers", method = RequestMethod.GET)

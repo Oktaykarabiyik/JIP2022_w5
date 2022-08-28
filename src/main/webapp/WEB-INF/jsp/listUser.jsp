@@ -77,13 +77,12 @@
                 tr.appendChild(tSexsmall);
                 liste.appendChild(tr);
 
-                todo.username="";
-                todo.email="";
-                todo.birthday="";
-                todo.sexsmall="";
-
             });
         });
-
 </script>
+<form action="/createPdf" method="get">
+    <button type="submit">Print Table</button>
+</form>
+
+
 </body>
